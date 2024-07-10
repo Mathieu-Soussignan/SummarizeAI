@@ -22,7 +22,7 @@ SynthèseAI est une application web de résumé automatique de texte utilisant d
 1. Clonez le dépôt :
 
 git clone [https://github.com/Mathieu-Soussignan/SummarizeAI.git](https://github.com/Mathieu-Soussignan/SummarizeAI)
-cd SummarizeAI
+## cd SummarizeAI
 
 2. Créez un environnement virtuel et activez-le :
 python -m venv venv
