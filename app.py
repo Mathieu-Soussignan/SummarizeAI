@@ -8,14 +8,22 @@ from sumy.nlp.stemmers import Stemmer
 from sumy.utils import get_stop_words
 import nltk
 import os
+from googletrans import Translator
 
 # Configuration de NLTK pour utiliser le répertoire local
 nltk.data.path.append(os.path.join(os.path.dirname(__file__), "nltk_data"))
 
 app = Flask(__name__)
+translator = Translator()
 
 
-def summarize_text(text, sentences_count=3, language="french", algorithm="lsa"):
+def summarize_text(
+    text,
+    sentences_count=3,
+    language="french",
+    algorithm="lsa",
+    target_language="english",
+):
     parser = PlaintextParser.from_string(text, Tokenizer(language))
     stemmer = Stemmer(language)
 
@@ -31,7 +39,15 @@ def summarize_text(text, sentences_count=3, language="french", algorithm="lsa"):
     summarizer.stop_words = get_stop_words(language)
 
     summary = summarizer(parser.document, sentences_count)
-    return " ".join([str(sentence) for sentence in summary])
+    summary_text = " ".join([str(sentence) for sentence in summary])
+
+    # Traduire le résumé si la langue cible est différente de la langue source
+    if target_language != language:
+        summary_text = translator.translate(
+            summary_text, src=language, dest=target_language
+        ).text
+
+    return summary_text
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -39,11 +55,17 @@ def index():
     summary = ""
     original_text = ""
     if request.method == "POST":
-        original_text = request.form.get("text", "")
-        sentences_count = int(request.form.get("sentences", 3))
-        language = request.form.get("language", "french")
-        algorithm = request.form.get("algorithm", "lsa")
-        summary = summarize_text(original_text, sentences_count, language, algorithm)
+        try:
+            original_text = request.form.get("text", "")
+            sentences_count = int(request.form.get("sentences", 3))
+            language = request.form.get("language", "french")
+            algorithm = request.form.get("algorithm", "lsa")
+            target_language = request.form.get("target_language", "english")
+            summary = summarize_text(
+                original_text, sentences_count, language, algorithm, target_language
+            )
+        except Exception as e:
+            summary = f"Erreur: {str(e)}"
 
     return render_template_string(
         """
@@ -150,18 +172,16 @@ def index():
             <h1>Synthèse AI</h1>
             <form method="post" id="summarize-form">
                 <textarea name="text" placeholder="Entrez votre texte ici" required>{{ original_text }}</textarea>
-                <select name="language">
-                    <option value="french">Français</option>
-                    <option value="english">Anglais</option>
-                    <option value="spanish">Espagnol</option>
-                    <option value="german">Allemand</option>
-                </select>
                 <select name="algorithm">
                     <option value="lsa">LSA</option>
                     <option value="textrank">TextRank</option>
                     <option value="lexrank">LexRank</option>
                 </select>
                 <input type="number" name="sentences" min="1" max="10" value="3" placeholder="Nombre de phrases">
+                <select name="target_language">
+                    <option value="english">Anglais</option>
+                    <option value="french">Français</option>
+                </select>
                 <button type="submit">Résumer</button>
             </form>
             <div id="result" class="result {% if summary %}show{% endif %}">

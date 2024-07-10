@@ -4,3 +4,4 @@ nltk==3.6.2
 gunicorn
 werkzeug==2.0.3
 numpy
+googletrans==4.0.0-rc1
