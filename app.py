@@ -55,116 +55,101 @@ def index():
                 :root {
                     --bg-color: #ffffff;
                     --text-color: #333333;
-                    --primary-color: #3498db;
-                    --secondary-color: #ecf0f1;
-                }
-                body {
-                    font-family: Arial, sans-serif;
-                    line-height: 1.6;
-                    padding: 20px;
-                    max-width: 800px;
-                    margin: 0 auto;
-                    background-color: var(--bg-color);
-                    color: var(--text-color);
-                    transition: background-color 0.3s, color 0.3s;
-                }
-                h1 {
-                    color: var(--primary-color);
-                    text-align: center;
-                }
-                textarea, select, input, button {
-                    margin-bottom: 10px;
-                    width: 100%;
-                    padding: 10px;
-                    box-sizing: border-box;
-                    border-radius: 5px;
-                    border: 1px solid #ccc;
-                    transition: all 0.3s ease;
-                }
-                textarea {
-                    height: 200px;
-                    resize: vertical;
-                }
-                button {
-                    background-color: var(--primary-color);
-                    color: white;
-                    border: none;
-                    cursor: pointer;
-                }
-                button:hover {
-                    background-color: #2980b9;
-                    transform: translateY(-2px);
-                    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-                }
-                .result {
-                    background-color: var(--secondary-color);
-                    padding: 15px;
-                    border-radius: 5px;
-                    margin-top: 20px;
-                    opacity: 0;
-                    transform: translateY(20px);
-                    transition: opacity 0.5s, transform 0.5s;
-                }
-                .result.show {
-                    opacity: 1;
-                    transform: translateY(0);
+                    --button-color: #4CAF50;
+                    --button-hover-color: #45a049;
+                    --input-border-color: #ccc;
+                    --result-bg-color: #f9f9f9;
+                    --result-border-color: #ddd;
+                    --font-family: Arial, sans-serif;
                 }
 
-                #theme-toggle-container {
+                body {
+                    background-color: var(--bg-color);
+                    color: var(--text-color);
+                    font-family: var(--font-family);
+                    margin: 0;
+                    padding: 0;
                     display: flex;
-                    justify-content: center;
-                    width: 100%;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .container {
+                    max-width: 800px;
+                    margin: 20px;
+                    padding: 20px;
+                    border: 1px solid var(--input-border-color);
+                    border-radius: 5px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                }
+
+                h1 {
+                    font-size: 2em;
                     margin-bottom: 20px;
                 }
-                #theme-toggle {
-                    width: 30%;
-                    position: static;
+
+                form {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                textarea, select, input[type="number"] {
+                    margin-bottom: 10px;
                     padding: 10px;
-                    border-radius: 15px;
+                    border: 1px solid var(--input-border-color);
+                    border-radius: 4px;
+                    font-size: 1em;
+                }
+
+                button {
+                    background-color: var(--button-color);
+                    color: white;
+                    padding: 10px;
+                    border: none;
+                    border-radius: 4px;
                     cursor: pointer;
-                    transition: background-color 0.3s;
-                    font-size: 16px;
+                    font-size: 1em;
                 }
-                .dark-mode {
-                    --bg-color: #2c3e50;
-                    --text-color: #ecf0f1;
-                    --primary-color: #3498db;
-                    --secondary-color: #34495e;
+
+                button:hover {
+                    background-color: var(--button-hover-color);
                 }
-                @media (max-width: 600px) {
-                    body {
-                        padding: 10px;
-                    }
-                    textarea {
-                        height: 150px;
-                    }
+
+                .result {
+                    margin-top: 20px;
+                    padding: 10px;
+                    border: 1px solid var(--result-border-color);
+                    background-color: var(--result-bg-color);
+                    border-radius: 4px;
+                    display: none;
+                }
+
+                .result.show {
+                    display: block;
                 }
             </style>
         </head>
         <body>
-            <div id="theme-toggle-container">
-                <button id="theme-toggle">🌓 Changer de thème</button>
-            </div>
-            <h1>Synthèse AI</h1>
-            <form method="post" id="summarize-form">
-                <textarea name="text" placeholder="Entrez votre texte ici" required>{{ original_text }}</textarea>
-                <select name="language">
-                    <option value="french">Français</option>
-                    <option value="english">Anglais</option>
-                    <option value="spanish">Espagnol</option>
-                    <option value="german">Allemand</option>
-                </select>
-                <select name="algorithm">
-                    <option value="lsa">LSA</option>
-                    <option value="textrank">TextRank</option>
-                    <option value="lexrank">LexRank</option>
-                </select>
-                <input type="number" name="sentences" min="1" max="10" value="3" placeholder="Nombre de phrases">
-                <button type="submit">Résumer</button>
-            </form>
-            <div id="result" class="result {% if summary %}show{% endif %}">
-                <h2>Résumé:</h2>
-                <p>{{ summary }}</p>
+            <div class="container">
+                <h1>TextDistill - Résumeur de Texte Intelligent</h1>
+                <form method="post" id="summarize-form">
+                    <textarea name="text" rows="10" placeholder="Collez votre texte ici...">{{ original_text }}</textarea>
+                    <select name="language">
+                        <option value="french">Français</option>
+                        <option value="english">Anglais</option>
+                    </select>
+                    <select name="algorithm">
+                        <option value="lsa">LSA</option>
+                        <option value="textrank">TextRank</option>
+                        <option value="lexrank">LexRank</option>
+                    </select>
+                    <input type="number" name="sentences" min="1" max="10" value="3" placeholder="Nombre de phrases">
+                    <button type="submit">Résumer</button>
+                </form>
+                <div id="result" class="result {% if summary %}show{% endif %}">
+                    <h2>Résumé:</h2>
+                    <p>{{ summary }}</p>
+                </div>
             </div>
 
             <script>
