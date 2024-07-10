@@ -58,6 +58,6 @@ Les contributions à ce projet sont les bienvenues. N'hésitez pas à ouvrir une
 [MIT License](https://opensource.org/licenses/MIT)
 
 ## Contact
-Votre Nom - [mathieu.soussignan@hotmail.fr](mailto:mathieu.soussignan@hotmail.fr)
+Mon mail - [mathieu.soussignan@hotmail.fr](mailto:mathieu.soussignan@hotmail.fr)
 
 Lien du projet : [[https://github.com/Mathieu-Soussignan/SummarizeAI/tree/master](https://github.com/Mathieu-Soussignan/SummarizeAI/tree/master)]
