@@ -52,7 +52,7 @@ def index():
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>TextDistill - Résumeur de Texte Intelligent</title>
+            <title>Synthèse AI - Résumeur de Texte Intelligent</title>
             <style>
                 :root {
                     --bg-color: #ffffff;
