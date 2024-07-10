@@ -59,4 +59,4 @@ Les contributions à ce projet sont les bienvenues. N'hésitez pas à ouvrir une
 ## Contact
 Votre Nom - [mathieu.soussignan@hotmail.fr](mailto:mathieu.soussignan@hotmail.fr)
 
-Lien du projet : [https://github.com/votre-username/syntheseai](https://github.com/votre-username/syntheseai)
+Lien du projet : [[https://github.com/Mathieu-Soussignan/SummarizeAI/tree/master](https://github.com/Mathieu-Soussignan/SummarizeAI/tree/master)]
