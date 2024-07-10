@@ -7,8 +7,10 @@ from sumy.summarizers.lex_rank import LexRankSummarizer
 from sumy.nlp.stemmers import Stemmer
 from sumy.utils import get_stop_words
 import nltk
+import os
 
-nltk.download("punkt")
+# Configuration de NLTK pour utiliser le répertoire local
+nltk.data.path.append(os.path.join(os.path.dirname(__file__), "nltk_data"))
 
 app = Flask(__name__)
 
